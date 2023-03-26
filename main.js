@@ -1,48 +1,66 @@
-const questions = [
-  {
-    question: "What is the capital of France?",
-    choices: ["London", "Paris", "Madrid"],
-    answer: "Paris"
-  },
-  {
-    question: "What is the largest planet in our solar system?",
-    choices: ["Earth", "Jupiter", "Mars"],
-    answer: "Jupiter"
-  },
-  {
-    question: "What is the smallest country in the world?",
-    choices: ["Monaco", "Vatican City", "San Marino"],
-    answer: "Vatican City"
-  }
-];
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-function runQuiz() {
-  let score = 0;
-  shuffle(questions);
-  for (let i = 0; i < questions.length; i++) {
-    const question = questions[i];
-    console.log(question.question);
-    shuffle(question.choices);
-    for (let j = 0; j < question.choices.length; j++) {
-      console.log(`${j + 1}. ${question.choices[j]}`);
+// Define the quiz questions and answers
+const quizQuestions = [
+    {
+      question: "What is the capital of France?",
+      options: ["Paris", "Madrid", "Rome", "Berlin"],
+      answer: "Paris"
+    },
+    {
+      question: "What is the largest planet in our solar system?",
+      options: ["Jupiter", "Saturn", "Neptune", "Uranus"],
+      answer: "Jupiter"
+    },
+    {
+      question: "What is the highest mountain in the world?",
+      options: ["Mount Kilimanjaro", "Mount Everest", "Mount Denali", "Mount Fuji"],
+      answer: "Mount Everest"
     }
-    const userAnswer = prompt("Enter the number of your answer:");
-    if (userAnswer === null) {
-      break;
+  ];
+  
+  // Define a function to shuffle the quiz questions array
+  function shuffleQuestions(questions) {
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
     }
-    const index = parseInt(userAnswer) - 1;
-    if (question.choices[index] === question.answer) {
-      console.log("Correct!");
-      score++;
-    } else {
-      console.log(`Wrong! The correct answer is ${question.answer}.`);
-    }
+    return questions;
   }
-  console.log(`Your final score is ${score} out of ${questions.length}.`);
-}
-runQuiz();
+  
+  // Define a function to start the quiz
+  function startQuiz() {
+    // Shuffle the quiz questions array
+    shuffleQuestions(quizQuestions);
+  
+    // Initialize the score
+    let score = 0;
+  
+    // Loop through each quiz question and prompt the user for an answer
+    for (let i = 0; i < quizQuestions.length; i++) {
+      const question = quizQuestions[i].question;
+      const options = quizQuestions[i].options;
+      const answer = quizQuestions[i].answer;
+  
+      // Shuffle the answer options
+      const shuffledOptions = shuffleQuestions(options.slice());
+  
+      // Prompt the user with the randomized question and answer options
+      const userAnswer = prompt(
+        `${i+1}. ${question}\n\n${shuffledOptions.join('\n')}`
+      );
+  
+      // Check if the user's answer is correct and increment the score
+      if (userAnswer === answer) {
+        alert("Correct!");
+        score++;
+      } else {
+        alert(`Incorrect! The correct answer was ${answer}.`);
+      }
+    }
+  
+    // Display the final score to the user
+    alert(`Quiz complete! You scored ${score} out of ${quizQuestions.length}.`);
+  }
+  
+  // Call the startQuiz function to begin the quiz
+  startQuiz();
+  
